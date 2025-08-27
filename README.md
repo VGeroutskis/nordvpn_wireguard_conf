@@ -1,4 +1,4 @@
-# NordVPN Server Browser
+# NordVPN Wireguard Configuration
 
 A web-based application for browsing and connecting to NordVPN servers with an intuitive interface and WireGuard configuration generation.
 
@@ -16,7 +16,7 @@ A web-based application for browsing and connecting to NordVPN servers with an i
 - **Responsive Design**: Works on desktop and mobile devices
 - **Local Storage**: Remembers your settings and connection history
 
-## Live Demo
+## Live
 
 Visit the live application: [https://vgeroutskis.github.io/nordvpn_wireguard_conf](https://vgeroutskis.github.io/nordvpn_wireguard_conf)
 
