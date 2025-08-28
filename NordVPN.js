@@ -26,7 +26,7 @@ const fetchNordVPN = async () => {
 
   for (let proxy of proxies) {
     try {
-      console.log(`Trying ${proxy.name}...`);
+      // console.log(`Trying ${proxy.name}...`);
 
       const proxyUrl = proxy.url + (proxy.name === 'Proxy6' ? encodeURIComponent(targetUrl) : targetUrl);
 
@@ -37,7 +37,7 @@ const fetchNordVPN = async () => {
       }
 
       const data = await response.json();
-      console.log(`Success with ${proxy.name}:`, data);
+      // console.log(`Success with ${proxy.name}:`, data);
 
       allServers = data;
       filteredServers = data;
@@ -51,7 +51,7 @@ const fetchNordVPN = async () => {
       return data;
 
     } catch (error) {
-      console.log(`${proxy.name} failed:`, error.message);
+      // console.log(`${proxy.name} failed:`, error.message);
       continue;
     }
   }
@@ -560,7 +560,7 @@ const handleConnection = async (token) => {
 
   try {
     // Make API call to get user credentials
-    console.log('Fetching user credentials...');
+    // console.log('Fetching user credentials...');
 
     const credentials = await fetchUserCredentials(token);
 
@@ -589,8 +589,8 @@ const handleConnection = async (token) => {
     // Store if this is simulated or real
     localStorage.setItem('nordvpn_connection_simulated', credentials.note && credentials.note.includes('Simulated') ? 'true' : 'false');
 
-    console.log('Successfully connected to server:', selectedServer);
-    console.log('User credentials retrieved:', credentials);
+    // console.log('Successfully connected to server:', selectedServer);
+    // console.log('User credentials retrieved:', credentials);
 
     // Update UI to show connected state
     connectBtn.textContent = 'Disconnect';
@@ -700,11 +700,11 @@ const fetchUserCredentials = async (token) => {
   const authString = `token:${token}`;
   const credentials = btoa(authString);
 
-  console.log('Testing working CORS proxies for credentials...');
+  // console.log('Testing working CORS proxies for credentials...');
 
   // Try CORS.LOL first (most promising from research)
   try {
-    console.log('Trying CORS.LOL...');
+    // console.log('Trying CORS.LOL...');
     const corsLolUrl = 'https://api.cors.lol/?url=' + encodeURIComponent(targetUrl);
 
     const response = await fetch(corsLolUrl, {
@@ -715,25 +715,25 @@ const fetchUserCredentials = async (token) => {
       }
     });
 
-    console.log('CORS.LOL response:', response.status);
+    // console.log('CORS.LOL response:', response.status);
 
     if (response.ok) {
       const data = await response.json();
-      console.log('CORS.LOL success:', data);
+      // console.log('CORS.LOL success:', data);
       return data;
     } else {
       const errorText = await response.text();
-      console.log('CORS.LOL error:', errorText);
+      // console.log('CORS.LOL error:', errorText);
       throw new Error(`CORS.LOL failed: ${response.status}`);
     }
 
   } catch (corsLolError) {
-    console.log('CORS.LOL failed:', corsLolError.message);
+    // console.log('CORS.LOL failed:', corsLolError.message);
   }
 
   // Try CORS.SH with required headers
   try {
-    console.log('Trying CORS.SH...');
+    // console.log('Trying CORS.SH...');
     const corsSHUrl = 'https://proxy.cors.sh/' + targetUrl;
 
     const response = await fetch(corsSHUrl, {
@@ -746,25 +746,25 @@ const fetchUserCredentials = async (token) => {
       }
     });
 
-    console.log('CORS.SH response:', response.status);
+    // console.log('CORS.SH response:', response.status);
 
     if (response.ok) {
       const data = await response.json();
-      console.log('CORS.SH success:', data);
+      // console.log('CORS.SH success:', data);
       return data;
     } else {
       const errorText = await response.text();
-      console.log('CORS.SH error:', errorText);
+      // console.log('CORS.SH error:', errorText);
       throw new Error(`CORS.SH failed: ${response.status}`);
     }
 
   } catch (corsSHError) {
-    console.log('CORS.SH failed:', corsSHError.message);
+    // console.log('CORS.SH failed:', corsSHError.message);
   }
 
   // Try updated CorsProxy.io format
   try {
-    console.log('Trying updated CorsProxy.io...');
+    // console.log('Trying updated CorsProxy.io...');
     const corsProxyUrl = 'https://corsproxy.io/?url=' + encodeURIComponent(targetUrl);
 
     const response = await fetch(corsProxyUrl, {
@@ -775,20 +775,20 @@ const fetchUserCredentials = async (token) => {
       }
     });
 
-    console.log('CorsProxy.io response:', response.status);
+    // console.log('CorsProxy.io response:', response.status);
 
     if (response.ok) {
       const data = await response.json();
-      console.log('CorsProxy.io success:', data);
+      // console.log('CorsProxy.io success:', data);
       return data;
     } else {
       const errorText = await response.text();
-      console.log('CorsProxy.io error:', errorText);
+      // console.log('CorsProxy.io error:', errorText);
       throw new Error(`CorsProxy.io failed: ${response.status}`);
     }
 
   } catch (corsProxyError) {
-    console.log('CorsProxy.io failed:', corsProxyError.message);
+    // console.log('CorsProxy.io failed:', corsProxyError.message);
   }
 
   // If all proxies fail, fall back to simulation
@@ -846,7 +846,7 @@ const handleDisconnect = () => {
       localStorage.removeItem(key);
     });
 
-    console.log('Disconnected from server:', selectedServer);
+    // console.log('Disconnected from server:', selectedServer);
 
     // Update UI to show disconnected state
     connectBtn.textContent = 'Connect';
@@ -873,7 +873,7 @@ const clearStoredToken = () => {
   localStorage.removeItem('nordvpn_connected_server');
   localStorage.removeItem('nordvpn_user_credentials');
 
-  console.log('Cleared stored access token and credentials');
+  // console.log('Cleared stored access token and credentials');
 
   // Reset modal UI
   setupModalForConnection();
@@ -947,7 +947,7 @@ const downloadWireGuardConfig = () => {
     document.body.removeChild(a);
     window.URL.revokeObjectURL(url);
     
-    console.log(`Downloaded WireGuard config: ${filename}`);
+    // console.log(`Downloaded WireGuard config: ${filename}`);
     
   } catch (error) {
     console.error('Failed to download config:', error);
@@ -974,7 +974,7 @@ const initializeTheme = () => {
   // Add event listener
   themeCheckbox.addEventListener('change', toggleTheme);
   
-  console.log(`Theme initialized: ${savedTheme}`);
+  // console.log(`Theme initialized: ${savedTheme}`);
 };
 
 const toggleTheme = () => {
@@ -990,7 +990,7 @@ const toggleTheme = () => {
   document.documentElement.setAttribute('data-theme', newTheme);
   localStorage.setItem('nordvpn_theme', newTheme);
   
-  console.log(`Theme switched to: ${newTheme}`);
+  // console.log(`Theme switched to: ${newTheme}`);
 };
 
 // Setup modal event listeners
